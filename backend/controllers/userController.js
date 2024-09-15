@@ -2,7 +2,7 @@ import { User } from "../models/userModel.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import z from 'zod';
 
-// register controller
+// User register controller
 const registerController = asyncHandler(async (req, res) => {
     try {
         const registerSchema = z.object({
@@ -63,12 +63,12 @@ const registerController = asyncHandler(async (req, res) => {
         console.error("Error in user registration: ", error);
         res.status(500).json({
             success: false,
-            message: `Error in user register controller ${error.message}`
+            message: `Error in user registeration ${error.message}`
         });
     }
 })
 
-// login controller
+// User login controller
 const loginController = asyncHandler(async (req, res) => {
     try {
         const loginSchema = z.object({
@@ -120,12 +120,12 @@ const loginController = asyncHandler(async (req, res) => {
         console.error("Error in user login: ", error);
         res.status(500).json({
             success: false,
-            message: `Error in user login controller ${error.message}`
+            message: `Error in user login ${error.message}`
         });
     }
 })
 
-// update profile
+// User update profile controller
 const updateUserController = asyncHandler(async (req, res) => {
     try {
         const updateBody = z.object({
@@ -165,7 +165,7 @@ const updateUserController = asyncHandler(async (req, res) => {
         console.error("Error in user details update: ", error);
         res.status(500).json({
             success: false,
-            message: `Error in user details update controller ${error.message}`
+            message: `Error in user details update ${error.message}`
         });
     }
 })

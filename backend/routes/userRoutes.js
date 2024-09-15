@@ -1,6 +1,6 @@
 import express from 'express';
 import { loginController, registerController, updateUserController } from '../controllers/userController.js';
-import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { userAuthMiddleware } from '../middlewares/authMiddleware.js';
 
 // router
 const router = express.Router();
@@ -8,6 +8,6 @@ const router = express.Router();
 // routes
 router.post('/register', registerController);
 router.post('/login', loginController);
-router.patch('/update-account', authMiddleware, updateUserController);
+router.patch('/update-account', userAuthMiddleware, updateUserController);
 
 export default router;

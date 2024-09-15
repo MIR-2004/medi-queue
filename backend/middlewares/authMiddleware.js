@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken"
 import { User } from "../models/userModel.js";
 
-export const authMiddleware = async (req, res, next) => {
+// user auth middleware
+const userAuthMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.replace('Bearer ', '');
         if (!token) {
@@ -37,3 +38,5 @@ export const authMiddleware = async (req, res, next) => {
         })
     }
 }
+
+export { userAuthMiddleware }

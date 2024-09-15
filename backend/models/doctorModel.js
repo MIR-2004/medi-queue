@@ -10,6 +10,10 @@ const doctorModel = new mongoose.Schema({
         type: String,
         required: true
     },
+    profileImage: {
+        type: String,
+        required: false
+    },
     specialization: {
         type: String,
         required: true

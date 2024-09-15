@@ -10,6 +10,19 @@ const hospitalSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profileImage: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
     location: {
         city: {
             type: String,
@@ -33,11 +46,6 @@ const hospitalSchema = new mongoose.Schema({
         required: true,
         unique: true
     }],
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
     doctorsId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Doctor'
