@@ -5,7 +5,8 @@ const storage = multer.diskStorage({
         cb(null, "./public/temp");
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname)
+        const sanitizedFileName = file.originalname.replace(/[^a-zA-Z0-9.]/g, "_");
+        cb(null, Date.now() + "-" + sanitizedFileName);
     }
 })
 

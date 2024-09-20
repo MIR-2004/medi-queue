@@ -52,13 +52,6 @@ const registerController = asyncHandler(async (req, res) => {
             token: token
         })
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return res.status(400).json({
-                success: false,
-                message: 'Validation error',
-                errors: error.errors,
-            });
-        }
 
         console.error("Error in user registration: ", error);
         res.status(500).json({
@@ -109,13 +102,6 @@ const loginController = asyncHandler(async (req, res) => {
             token: token
         })
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return res.status(400).json({
-                success: false,
-                message: 'Validation error',
-                errors: error.errors,
-            });
-        }
 
         console.error("Error in user login: ", error);
         res.status(500).json({
@@ -154,13 +140,6 @@ const updateUserController = asyncHandler(async (req, res) => {
             data: user
         })
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return res.status(400).json({
-                success: false,
-                message: 'Validation error',
-                errors: error.errors,
-            });
-        }
 
         console.error("Error in user details update: ", error);
         res.status(500).json({
