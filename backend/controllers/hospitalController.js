@@ -1,5 +1,6 @@
 import { Hospital } from "../models/hospitalModel.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import bcrypt from "bcrypt";
 
 // hospital register controller
 const hospitalRegisterController = asyncHandler(async (req, res) => {
@@ -118,4 +119,45 @@ const hospitalLoginController = asyncHandler(async (req, res) => {
     }
 })
 
-export { hospitalRegisterController, hospitalLoginController }
+// hospital update profile controller
+const hospitalUpdateController = asyncHandler(async (req, res) => {
+    try {
+        const { name, description, password, city, district, state, zipCode, phoneNumber, profileImage } = req.body;
+
+        console.log(req.file)
+
+        const updateSchema = {
+            ...(name && { name }),
+            ...(description && { description }),
+            ...(password && { password: await bcrypt.hash(password, 10) }),
+            ...(city && { city }),
+            ...(district && { district }),
+            ...(state && { state }),
+            ...(zipCode && { zipCode }),
+            ...(phoneNumber && { phoneNumber }),
+            ...(req.file && { profileImage: req.file.filename })
+        }
+
+        const hospital = await Hospital.findByIdAndUpdate(req.hospital._id, updateSchema, { new: true }).select('-password');
+        if (!hospital) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid hospital data'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Hospital updated successfully',
+            data: hospital
+        });
+    } catch (error) {
+        console.error("Error in hospital update: ", error);
+        res.status(500).json({
+            success: false,
+            message: `Error in hospital update ${error.message}`
+        });
+    }
+})
+
+export { hospitalRegisterController, hospitalLoginController, hospitalUpdateController }
