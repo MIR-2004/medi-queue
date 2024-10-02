@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const hospitalSchema = new mongoose.Schema({
     name: {
@@ -23,6 +24,7 @@ const hospitalSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        select: false
     },
     location: {
         city: {
@@ -63,5 +65,13 @@ hospitalSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
     next();
 })
+
+hospitalSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password);
+}
+
+hospitalSchema.methods.token = function () {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+}
 
 export const Hospital = mongoose.model('Hospital', hospitalSchema);

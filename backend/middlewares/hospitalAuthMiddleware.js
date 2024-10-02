@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken"
-import { User } from "../models/userModel.js";
+import { Hospital } from "../models/hospitalModel.js";
 
 // user auth middleware
-const userAuthMiddleware = async (req, res, next) => {
+const hospitalAuthMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.replace('Bearer ', '');
         if (!token) {
@@ -20,15 +20,15 @@ const userAuthMiddleware = async (req, res, next) => {
             })
         }
 
-        const user = await User.findById(decodedToken?.id).select('-password');
-        if (!user) {
+        const hospital = await Hospital.findById(decodedToken?.id);
+        if (!hospital) {
             return res.status(401).json({
                 success: false,
                 message: 'Invalid Access Token'
             })
         }
 
-        req.user = user;
+        req.hospital = hospital;
         next();
     } catch (error) {
         console.error("Error in Auth Middleware: ", error);
@@ -39,4 +39,4 @@ const userAuthMiddleware = async (req, res, next) => {
     }
 }
 
-export { userAuthMiddleware }
+export { hospitalAuthMiddleware }
